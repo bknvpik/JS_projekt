@@ -1,4 +1,4 @@
-Temat projektu: Gra komputerowa "Space Run"
+#Temat projektu: Gra komputerowa "Space Run"
 
 Opis zadania:
 
