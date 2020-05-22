@@ -29,10 +29,5 @@ Testy
 * Złapanie bonusu odnawiającego życie powoduje dodanie odpowiedniej ilości punktów życia - nie przekracza maksymalnej dozwolonej wartości, gdy gracz posiada pełen pasek zdrowia zbieranie kolejnych bonusów tego typu nie daje żadnego efektu
 * Złapanie bonusu podwójnego lasera podczas gdy jest już aktywny resetuje czas trwania bonusu
 
-[Github](http://github.com/bknvpik/JS_projekt)
+[GitHub](http://github.com/bknvpik/JS_projekt)
 ----------------------------------------------
-Komentarz
----------
-Gra działa, projekt został praktycznie ukończony, jednak wymaga jeszcze kilku poprawek. Temat został zaproponowany przez Pana prof. Marcina Ciurę, gdy rozpoczynałem
-pracę nad nim nie zostałem poinformowany, że będzie musiał spełniać wszystkie wytyczne zamieszczone na elfie, postaram się przekształcić kod w taki sposób aby chociaż
-część z nich została spełniona, jednak nie ukrywam, że jest to dla mnie bardzo trudne zadanie, zwłaszcza, ze względu na natłok różnorodnych projektów z innych przedmiotów.
