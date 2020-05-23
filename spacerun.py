@@ -23,12 +23,12 @@ ENEMIES_NUMBER = 40
 
 # Kolory.
 
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-YELLOW = (0, 255, 255)
+WHITE = pg.Color('#ffffff')
+BLACK = pg.Color('#000000')
+RED = pg.Color('#ac0103')
+GREEN = pg.Color('#3bcb4f')
+BLUE = pg.Color('#268bd2')
+YELLOW = pg.Color('#b58900')
 
 # Ścieżki:
 
@@ -126,7 +126,7 @@ class Game:
         """Metoda odpowiedzialna za wyświetlanie ekranu startowego i wczytanie najlepszego wyniku."""
         self.screen.blit(self.background, self.background_rect)
         self.draw_text(self.title_font, 'midtop', TITLE, WHITE, WIDTH / 2, HEIGHT / 8)
-        self.draw_text(self.small_font, 'midtop', 'Press SPACE to play...', BLUE, WIDTH / 2, HEIGHT / 3)
+        self.draw_text(self.small_font, 'midtop', 'Press SPACE to play . . .', BLUE, WIDTH / 2, HEIGHT / 3)
         self.draw_text(self.small_font, 'midtop', 'SPACE - shoot', RED, WIDTH / 2, HEIGHT / 2.2)
         self.draw_text(self.small_font, 'midtop', 'A , D - move', RED, WIDTH / 2, HEIGHT / 2)
 
