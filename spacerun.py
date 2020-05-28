@@ -28,7 +28,6 @@ BLACK = pg.Color('#000000')
 RED = pg.Color('#ac0103')
 GREEN = pg.Color('#3bcb4f')
 BLUE = pg.Color('#268bd2')
-YELLOW = pg.Color('#b58900')
 
 # Ścieżki:
 
