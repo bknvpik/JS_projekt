@@ -31,3 +31,4 @@ Testy
 
 [GitHub](http://github.com/bknvpik/JS_projekt)
 ----------------------------------------------
+![alt text](https://github.com/bknvpik/JS_projekt/img/screenshot.png?raw=true)
