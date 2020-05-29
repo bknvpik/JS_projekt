@@ -29,6 +29,6 @@ Testy
 * Złapanie bonusu odnawiającego życie powoduje dodanie odpowiedniej ilości punktów życia - nie przekracza maksymalnej dozwolonej wartości, gdy gracz posiada pełen pasek zdrowia zbieranie kolejnych bonusów tego typu nie daje żadnego efektu
 * Złapanie bonusu podwójnego lasera podczas gdy jest już aktywny resetuje czas trwania bonusu
 
-[GitHub](http://github.com/bknvpik/JS_projekt)
-----------------------------------------------
+Zrzut ekranu z gry:
+-------------------
 ![screenshot](http://github.com/bknvpik/JS_projekt/tree/master/img/screenshot.png?raw=true)
