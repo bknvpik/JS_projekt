@@ -31,4 +31,4 @@ Testy
 
 [GitHub](http://github.com/bknvpik/JS_projekt)
 ----------------------------------------------
-!ss(http://github.com/bknvpik/JS_projekt/tree/master/img/screenshot.png?raw=True)
+![screenshot](http://github.com/bknvpik/JS_projekt/tree/master/img/screenshot.png?raw=true)
