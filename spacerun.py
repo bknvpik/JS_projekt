@@ -168,7 +168,7 @@ class Game:
         for hit in hits:
             self.score += 1
             random.choice(self.assets.hit_sounds).play()
-            if random.random() > 100 - POWER_UP_CHANCE:
+            if random.random() > 1 - POWER_UP_CHANCE:
                 powerup = PowerUp(self.assets, hit.rect.center)
                 self.all_entities.add(powerup)
                 self.powerups.add(powerup)
@@ -191,6 +191,7 @@ class Game:
             self.player.life -= hit.radius * 2
             self.spawn_enemy()
             if self.player.life <= 0:
+                self.assets.death_sound.play()
                 self.game_over = True
                 self.clean_up()
 
