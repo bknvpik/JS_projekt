@@ -20,7 +20,6 @@ sounds_folder = os.path.join(game_folder, 'sounds')
 
 class Assets:
     """Klasa przechowuje zasoby."""
-
     # pylint: disable=too-few-public-methods
 
     @staticmethod
@@ -59,4 +58,3 @@ class Assets:
         for snd in ['hit1.wav', 'hit2.wav']:
             Assets.hit_sounds.append(pg.mixer.Sound(os.path.join(sounds_folder, snd)))
         pg.mixer.music.load(os.path.join(sounds_folder, 'soundtrack.mp3'))
-
