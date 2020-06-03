@@ -54,6 +54,7 @@ class Assets:
         Assets.laser_sound = pg.mixer.Sound(os.path.join(sounds_folder, 'laser.wav'))
         Assets.power_up_hp_sound = pg.mixer.Sound(os.path.join(sounds_folder, 'powerup_hp.wav'))
         Assets.power_up_laser_sound = pg.mixer.Sound(os.path.join(sounds_folder, 'powerup_laser.wav'))
+        Assets.death_sound = pg.mixer.Sound(os.path.join(sounds_folder, 'death.wav'))
         Assets.hit_sounds = []
         for snd in ['hit1.wav', 'hit2.wav']:
             Assets.hit_sounds.append(pg.mixer.Sound(os.path.join(sounds_folder, snd)))
