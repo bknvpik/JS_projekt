@@ -24,8 +24,8 @@ Testy
 * Gracz ma ograniczone pole poruszania - statek kosmiczny nie wychodzi poza krawędzie okna gry
 * Jeśli pocisk zetknie się z wrogim obiektem - obiekt ten jest niszczony, natomiast do obecnego wyniku gracza dodawany jest 1 punkt
 * Jeśli gracz zderzy się z wrogim obiektem - odjęta będzie odpowiednia ilość punktów życia, natomiast gdy spadnie ona poniżej zera - gra się zakończy i wyświetli ekran startowy
-* Jeśli wrogi obiekt zniknie z pola widzenia gracza - zostaje kasowany
-* Na ekranie w danym momencie jest umieszczona konkretna liczba wrogich obiektów, jeżeli któryś z nich zostanie zniszczony lub zniknie z pola widzenia gracza - pojawi się odpowiednia ilość nowych obiektów
+* Jeśli wrogi obiekt zniknie z pola widzenia gracza - zostaje ponownie ustawiony w taki sposób by spadał z góry w stronę gracza
+* Na ekranie w danym momencie jest umieszczona konkretna liczba wrogich obiektów, jeżeli któryś z nich zostanie zniszczony - pojawi się odpowiednia ilość nowych obiektów
 * Złapanie bonusu odnawiającego życie powoduje dodanie odpowiedniej ilości punktów życia - nie przekracza maksymalnej dozwolonej wartości, gdy gracz posiada pełen pasek zdrowia zbieranie kolejnych bonusów tego typu nie daje żadnego efektu
 * Złapanie bonusu podwójnego lasera podczas gdy jest już aktywny resetuje czas trwania bonusu
 
