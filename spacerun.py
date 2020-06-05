@@ -2,14 +2,12 @@
 
 import os
 import random
-import sys
 
 import pygame as pg
 
 import assets
 
 # Stałe projektu.
-
 TITLE = 'SPACE RUN'
 HIGHSCORE_FILE = "highscores.dat"
 WIDTH_PX = 800
@@ -23,16 +21,16 @@ POWER_UP_CHANCE = 0.05  # Procentowa szansa na pojawienie się bonusu (*100%)
 BG_SPEED = 4  # Szybkość przewijania tła gry
 
 # Kolory
-
-WHITE = pg.Color('#ffffff')
-BLACK = pg.Color('#000000')
-RED = pg.Color('#ac0103')
-GREEN = pg.Color('#3bcb4f')
-BLUE = pg.Color('#268bd2')
+SURFACE_COLOR = pg.Color('#000000')
+TEXT_COLOR_WHITE = pg.Color('#ffffff')
+TEXT_COLOR_RED = pg.Color('#ac0103')
+TEXT_COLOR_BLUE = pg.Color('#0579d4')
+LIFE_BAR_COLOR = pg.Color('#3bcb4f')
+POWER_UP_BAR_COLOR = pg.Color('#268bd2')
+BAR_OUTLINE_COLOR = pg.Color('#e6e1e3')
 
 # Ścieżki:
-
-game_folder = os.path.dirname(__file__)
+GAME_FOLDER = assets.GAME_FOLDER
 
 
 class Game:
@@ -44,8 +42,8 @@ class Game:
     """
     # pylint: disable=too-many-instance-attributes, too-many-arguments, no-member
 
-    screen = pg.display.set_mode((WIDTH_PX, HEIGHT_PX))
-    clock = pg.time.Clock()
+    SCREEN = pg.display.set_mode((WIDTH_PX, HEIGHT_PX))
+    CLOCK = pg.time.Clock()
 
     def __init__(self, assts):
         self.assets = assts
@@ -79,42 +77,41 @@ class Game:
             text_rect.midtop = (x_pos, y_pos)
         else:
             text_rect.topleft = (x_pos, y_pos)
-        self.screen.blit(text_surface, text_rect)
+        self.SCREEN.blit(text_surface, text_rect)
 
     def show_menu(self):
         """Metoda odpowiedzialna za wyświetlanie ekranu startowego i
         wczytanie najlepszego wyniku."""
 
-        self.screen.blit(self.assets.background, self.assets.background_rect)
-        self.draw_text(self.assets.title_font, 'midtop', TITLE, WHITE, WIDTH_PX / 2, HEIGHT_PX / 8)
+        self.SCREEN.blit(self.assets.background, self.assets.background_rect)
+        self.draw_text(self.assets.title_font, 'midtop', TITLE, TEXT_COLOR_WHITE, WIDTH_PX / 2, HEIGHT_PX / 8)
         self.draw_text(self.assets.small_font, 'midtop', 'Press SPACE to play . . .',
-                       BLUE, WIDTH_PX / 2, HEIGHT_PX / 3)
+                       TEXT_COLOR_BLUE, WIDTH_PX / 2, HEIGHT_PX / 3)
         self.draw_text(self.assets.small_font, 'midtop', 'SPACE - shoot',
-                       RED, WIDTH_PX / 2, HEIGHT_PX / 2.2)
+                       TEXT_COLOR_RED, WIDTH_PX / 2, HEIGHT_PX / 2.2)
         self.draw_text(self.assets.small_font, 'midtop', 'A , D - move',
-                       RED, WIDTH_PX / 2, HEIGHT_PX / 2)
+                       TEXT_COLOR_RED, WIDTH_PX / 2, HEIGHT_PX / 2)
 
         # Wczytanie najlepszego wyniku:
-
-        with open(os.path.join(game_folder, HIGHSCORE_FILE), 'r') as file:
+        with open(os.path.join(GAME_FOLDER, HIGHSCORE_FILE), 'r') as file:
             highscore = int(file.read())
         if self.score > highscore:
             self.draw_text(self.assets.medium_font, 'midtop', 'NEW HIGHSCORE:  '
-                           + str(self.score), WHITE, WIDTH_PX / 2, HEIGHT_PX / 1.5)
-            with open(os.path.join(game_folder, HIGHSCORE_FILE), 'w') as file:
+                           + str(self.score), TEXT_COLOR_WHITE, WIDTH_PX / 2, HEIGHT_PX / 1.5)
+            with open(os.path.join(GAME_FOLDER, HIGHSCORE_FILE), 'w') as file:
                 file.write(str(self.score))
         else:
             self.draw_text(self.assets.medium_font, 'midtop', 'HIGHSCORE:  '
-                           + str(highscore), WHITE, WIDTH_PX / 2, HEIGHT_PX / 1.5)
+                           + str(highscore), TEXT_COLOR_WHITE, WIDTH_PX / 2, HEIGHT_PX / 1.5)
 
         pg.display.flip()
         waiting = True
         while waiting:
-            self.clock.tick(FPS)
+            self.CLOCK.tick(FPS)
             for event in pg.event.get():
                 if event.type == pg.QUIT:
-                    pg.quit()
-                    sys.exit()
+                    self.running = False
+                    quit()
                 elif event.type == pg.KEYDOWN:
                     if event.key == pg.K_SPACE:
                         waiting = False
@@ -134,8 +131,8 @@ class Game:
         fill = (value / 100) * BAR_LENGTH_PX
         outline_rect = pg.Rect(x_pos, y_pos, BAR_LENGTH_PX, BAR_HEIGHT_PX)
         fill_rect = pg.Rect(x_pos, y_pos, fill, BAR_HEIGHT_PX)
-        pg.draw.rect(self.screen, color, fill_rect)
-        pg.draw.rect(self.screen, WHITE, outline_rect, 2)
+        pg.draw.rect(self.SCREEN, color, fill_rect)
+        pg.draw.rect(self.SCREEN, BAR_OUTLINE_COLOR, outline_rect, 2)
 
     def spawn_enemy(self):
         """Metoda odpowiadająca za pojawianie się wrogów."""
@@ -180,8 +177,8 @@ class Game:
             if hit.type == 'hp':
                 self.assets.power_up_hp_sound.play()
                 self.player.life += 20
-                if self.player.life >= self.player.player_life:
-                    self.player.life = self.player.player_life
+                if self.player.life >= self.player.PLAYER_LIFE:
+                    self.player.life = self.player.PLAYER_LIFE
             if hit.type == 'laser':
                 self.assets.power_up_laser_sound.play()
                 self.player.power_up()
@@ -199,9 +196,9 @@ class Game:
         """Metoda odpowiada za ciągłe przewijanie tła gry oraz
         wyświetlanie punktów, paska stanu zdrowia i bonusu."""
 
-        self.screen.fill(BLACK)
-        self.screen.blit(self.assets.background, (0, self.bg_y1))
-        self.screen.blit(self.assets.background, (0, self.bg_y2))
+        self.SCREEN.fill(SURFACE_COLOR)
+        self.SCREEN.blit(self.assets.background, (0, self.bg_y1))
+        self.SCREEN.blit(self.assets.background, (0, self.bg_y2))
         self.bg_y1 += BG_SPEED
         self.bg_y2 += BG_SPEED
         if self.bg_y1 > HEIGHT_PX:
@@ -209,14 +206,14 @@ class Game:
         if self.bg_y2 > 0:
             self.bg_y2 = -HEIGHT_PX
 
-        self.all_entities.draw(self.screen)
+        self.all_entities.draw(self.SCREEN)
         self.draw_text(self.assets.small_font, 'midtop', 'score  '
-                       + str(self.score), WHITE, WIDTH_PX / 2, 10)
-        self.draw_text(self.assets.small_font, 'topleft', 'HP ', WHITE, 10, 10)
-        self.draw_status_bar(50, 12, GREEN, self.player.life)
+                       + str(self.score), TEXT_COLOR_WHITE, WIDTH_PX / 2, 10)
+        self.draw_text(self.assets.small_font, 'topleft', 'HP ', TEXT_COLOR_WHITE, 10, 10)
+        self.draw_status_bar(50, 12, LIFE_BAR_COLOR, self.player.life)
         if self.player.power:
-            self.draw_text(self.assets.small_font, 'topleft', 'UP ', WHITE, 10, 32)
-            self.draw_status_bar(50, 32, BLUE, (100 - self.power_up_time_ms))
+            self.draw_text(self.assets.small_font, 'topleft', 'UP ', TEXT_COLOR_WHITE, 10, 32)
+            self.draw_status_bar(50, 32, POWER_UP_BAR_COLOR, (100 - self.power_up_time_ms))
         pg.display.flip()
 
     def game_start(self):
@@ -240,21 +237,21 @@ class Player(pg.sprite.Sprite):
     """Klasa reprezentująca gracza."""
     # pylint: disable=too-many-instance-attributes
 
-    player_speed = 15
-    player_life = 100
+    PLAYER_SPEED = 15
+    PLAYER_LIFE = 100
 
     def __init__(self, game, assts):
         pg.sprite.Sprite.__init__(self)
         self.game = game
         self.assets = assts
         self.image = self.assets.player_img
-        self.image.set_colorkey(BLACK)
+        self.image.set_colorkey(SURFACE_COLOR)
         self.rect = self.image.get_rect()
         self.radius = 25
         self.rect.centerx = WIDTH_PX / 2
         self.rect.bottom = HEIGHT_PX - 10
         self.speed_x = 0
-        self.life = self.player_life
+        self.life = self.PLAYER_LIFE
         self.power = 0
         self.power_time = pg.time.get_ticks()
 
@@ -270,9 +267,9 @@ class Player(pg.sprite.Sprite):
         self.speed_x = 0
         key_state = pg.key.get_pressed()
         if key_state[pg.K_d]:
-            self.speed_x = self.player_speed
+            self.speed_x = self.PLAYER_SPEED
         if key_state[pg.K_a]:
-            self.speed_x = -self.player_speed
+            self.speed_x = -self.PLAYER_SPEED
         self.rect.x += self.speed_x
         if self.rect.right > WIDTH_PX:
             self.rect.right = WIDTH_PX
@@ -315,27 +312,27 @@ class Enemy(pg.sprite.Sprite):
     """Klasa symulująca meteoryty."""
     # pylint: disable=too-many-instance-attributes
 
-    rotation_range = 8
-    position_y_range = -100
-    speed_x_range = 3
-    speed_y_range = 9
-    rotation_smothness = 30
-    disappear_tolerance = 50
+    ROTATION_RANGE = 8
+    POSITION_Y_RANGE = -100
+    SPEED_X_RANGE = 3
+    SPEED_Y_RANGE = 9
+    ROTATION_SMOTHNESS = 30
+    DISAPPEAR_TOLERANCE = 50
 
     def __init__(self, assts):
         pg.sprite.Sprite.__init__(self)
         self.assets = assts
         self.image_orig = random.choice(assts.meteor_images)
-        self.image_orig.set_colorkey(BLACK)
+        self.image_orig.set_colorkey(SURFACE_COLOR)
         self.image = self.image_orig.copy()
         self.rect = self.image.get_rect()
         self.radius = int(self.rect.width * 0.9 / 2)
         self.rect.x = random.randrange(WIDTH_PX - self.rect.width)
-        self.rect.y = random.randrange(self.position_y_range, self.position_y_range / 2.5)
-        self.speed_x = random.randrange(-self.speed_x_range, self.speed_x_range)
-        self.speed_y = random.randrange(self.speed_y_range / 9, self.speed_y_range)
+        self.rect.y = random.randrange(self.POSITION_Y_RANGE, self.POSITION_Y_RANGE / 2.5)
+        self.speed_x = random.randrange(-self.SPEED_X_RANGE, self.SPEED_X_RANGE)
+        self.speed_y = random.randrange(self.SPEED_Y_RANGE / 9, self.SPEED_Y_RANGE)
         self.rotation = 0
-        self.rotation_speed = random.randrange(-self.rotation_range, self.rotation_range)
+        self.rotation_speed = random.randrange(-self.ROTATION_RANGE, self.ROTATION_RANGE)
         self.last_update = pg.time.get_ticks()
 
     def rotate(self):
@@ -343,7 +340,7 @@ class Enemy(pg.sprite.Sprite):
 
         now = pg.time.get_ticks()
 
-        if now - self.last_update > self.rotation_smothness:
+        if now - self.last_update > self.ROTATION_SMOTHNESS:
             self.last_update = now
             self.rotation += self.rotation_speed % 360
             new_image = pg.transform.rotate(self.image_orig, self.rotation)
@@ -358,28 +355,28 @@ class Enemy(pg.sprite.Sprite):
         self.rotate()
         self.rect.x += self.speed_x
         self.rect.y += self.speed_y
-        if (self.rect.top > HEIGHT_PX + self.disappear_tolerance
-                or self.rect.left < -self.disappear_tolerance
-                or self.rect.right > WIDTH_PX + self.disappear_tolerance):
+        if (self.rect.top > HEIGHT_PX + self.DISAPPEAR_TOLERANCE
+                or self.rect.left < -self.DISAPPEAR_TOLERANCE
+                or self.rect.right > WIDTH_PX + self.DISAPPEAR_TOLERANCE):
             self.rect.x = random.randrange(WIDTH_PX - self.rect.width)
-            self.rect.y = random.randrange(self.position_y_range, self.position_y_range / 2.5)
-            self.speed_y = random.randrange(self.speed_y_range / 9, self.speed_y_range)
+            self.rect.y = random.randrange(self.POSITION_Y_RANGE, self.POSITION_Y_RANGE / 2.5)
+            self.speed_y = random.randrange(self.SPEED_Y_RANGE / 9, self.SPEED_Y_RANGE)
 
 
 class Bullet(pg.sprite.Sprite):
     """Klasa symulująca pociski wystrzeliwane przez gracza."""
     # pylint: disable=too-few-public-methods
 
-    bullet_speed = 10
+    BULLET_SPEED = 10
 
     def __init__(self, assts, x_pos, y_pos):
         pg.sprite.Sprite.__init__(self)
         self.image = assts.bullet_img
-        self.image.set_colorkey(BLACK)
+        self.image.set_colorkey(SURFACE_COLOR)
         self.rect = self.image.get_rect()
         self.rect.centerx = x_pos
         self.rect.bottom = y_pos
-        self.speed_y = -self.bullet_speed
+        self.speed_y = -self.BULLET_SPEED
 
     def update(self):
         """Metoda odpowiada za poruszanie się pocisków oraz
@@ -394,16 +391,16 @@ class PowerUp(pg.sprite.Sprite):
     """Klasa odpowiadająca za bonusy wypadające z zestrzelonych wrogów."""
     # pylint: disable=too-few-public-methods
 
-    power_up_speed = 6
+    POWER_UP_SPEED = 6
 
     def __init__(self, assts, center):
         pg.sprite.Sprite.__init__(self)
         self.type = random.choice(['hp', 'laser'])
         self.image = assts.powerup_images[self.type]
-        self.image.set_colorkey(BLACK)
+        self.image.set_colorkey(SURFACE_COLOR)
         self.rect = self.image.get_rect()
         self.rect.center = center
-        self.speed_y = self.power_up_speed
+        self.speed_y = self.POWER_UP_SPEED
 
     def update(self):
         """Metoda odpowiadająca za opadanie bonusów oraz
@@ -422,51 +419,35 @@ def main():
     # pylint: disable=no-member
 
     # Inicjalizacja bibliotek
-
     pg.init()
-    pg.font.init()
-    pg.mixer.init()
 
     # Wczytanie zasobów z dysku
-
     assts = assets.Assets()
     assts.load()
 
     # Utworzenie obiektu klasy 'Game'
-
     game = Game(assts)
     pg.display.set_caption(TITLE)
     pg.display.set_icon(assts.icon)
     pg.mixer.music.play(loops=-1)
 
     # Główna pętla gry
-
     while game.running:
         if game.game_over:
             game.game_start()
 
         # Określenie ilości klatek na sekundę
-
-        game.clock.tick(FPS)
-
+        game.CLOCK.tick(FPS)
         # Obsługa zdarzeń
-
         game.events()
-
         # Aktualizacja stanu obiektów w grze
-
         game.all_entities.update()
-
         # Obsługa kolizji obiektów
-
         game.collision()
-
         # Funkcja rysująca obiekty na ekranie
-
         game.draw()
 
     pg.quit()
-    sys.exit()
 
 
 if __name__ == '__main__':
