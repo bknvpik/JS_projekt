@@ -32,4 +32,4 @@ Testy
 Zrzut ekranu z gry:
 -------------------
 
-![screenshot](https://user-images.githubusercontent.com/62998277/83309064-94511000-a208-11ea-9a20-714595de385d.png)
+![ss](https://user-images.githubusercontent.com/62998277/84304126-57fea780-ab58-11ea-8e13-b1ca365bf7f3.png)
