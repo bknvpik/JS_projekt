@@ -16,7 +16,7 @@ FPS = 60
 POWER_UP_TIME_MS = 5000
 BAR_LENGTH_PX = 180
 BAR_HEIGHT_PX = 15
-ENEMIES_NUMBER = 40
+ENEMIES_NUMBER = 30
 POWER_UP_CHANCE = 0.05  # Procentowa szansa na pojawienie się bonusu (*100%)
 BG_SPEED = 4  # Szybkość przewijania tła gry
 
@@ -36,7 +36,6 @@ GAME_FOLDER = assets.GAME_FOLDER
 class Game:
     """Główna klasa gry.
 
-    Klasa inicjalizuje biblioteki, ładuje grafikę, czcionki i dźwięki używane w grze.
     Zawiera metody odpowiedzialne za rysowanie obiektów na ekranie (tekstu, grafiki).
     Obsługuje kolizję obiektów oraz koordynuje działanie gry.
     """
